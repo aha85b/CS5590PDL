@@ -12,13 +12,19 @@ print('\n', 'The described data: ', '\n', train.revenue.describe(), '\n')
 
 #handling missing value
 data = train.select_dtypes(include=[np.number]).interpolate().dropna()
+
+print('Columns Value: ')
+
+print(sum(data.isnull().sum() != 0))
+
+print('\n')
+
 # Perform a correlation
 corr = data.corr()
-print(corr['revenue'].sort_values(ascending=False)[:5], '\n')
-print(corr['revenue'].sort_values(ascending=False)[-5:])
+print('Top Five: ', '\n', corr['revenue'].sort_values(ascending=False)[:5], '\n')
 
 #Build a linear model
-y = np.log(train.revenue)
+y = np.log(train['revenue'])
 X = data.drop(['revenue', 'Id'], axis=1)
 
 from sklearn.model_selection import train_test_split
